@@ -63,11 +63,6 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>driver-kop</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
             <artifactId>driver-nats</artifactId>
             <version>${project.version}</version>
         </dependency>
