@@ -1,6 +1,8 @@
 provider "aws" {
   region  = "${var.region}"
-  version = "3.50"
+  assume_role {
+    role_arn = "${var.assume_role}"
+  }
 }
 
 provider "random" {
@@ -31,6 +33,8 @@ variable "region" {}
 variable "ami" {}
 
 variable "az" {}
+
+variable "assume_role" {}
 
 variable "instance_types" {
   type = map(string)
