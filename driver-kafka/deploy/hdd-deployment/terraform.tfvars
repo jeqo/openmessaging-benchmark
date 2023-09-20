@@ -1,7 +1,8 @@
 public_key_path = "~/.ssh/kafka_aws.pub"
-region          = "us-west-2"
-az              = "us-west-2a"
-ami             = "ami-9fa343e7" // RHEL-7.4
+region          = "eu-central-1"
+az              = "eu-central-1a"
+ami             = "ami-03cbad7144aeda3eb" // RHEL-9
+assume_role     = "arn:aws:iam::450367589208:role/AivenDeveloperAccess"
 
 instance_types = {
   "kafka"     = "d2.4xlarge"
@@ -10,7 +11,7 @@ instance_types = {
 }
 
 num_instances = {
-  "client"    = 4
-  "kafka"     = 3
-  "zookeeper" = 3
+  "client"    = 2
+  "kafka"     = 0
+  "zookeeper" = 0
 }
