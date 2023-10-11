@@ -1,6 +1,13 @@
 provider "aws" {
   region  = "${var.region}"
-  version = "3.50"
+  assume_role {
+    role_arn = "${var.assume_role}"
+  }
+  default_tags {
+    tags = {
+      aiven-project = "kafka-tiered-storage-benchmarking-jeqo"
+    }
+  }
 }
 
 provider "random" {
@@ -31,6 +38,8 @@ variable "region" {}
 variable "ami" {}
 
 variable "az" {}
+
+variable "assume_role" {}
 
 variable "instance_types" {
   type = map(string)
@@ -143,7 +152,7 @@ resource "aws_instance" "kafka" {
   }
 }
 
-resource "aws_instance" "client" {
+resource "aws_spot_instance_request" "client" {
   ami                    = "${var.ami}"
   instance_type          = "${var.instance_types["client"]}"
   key_name               = "${aws_key_pair.auth.id}"
@@ -157,5 +166,5 @@ resource "aws_instance" "client" {
 }
 
 output "client_ssh_host" {
-  value = "${aws_instance.client.0.public_ip}"
+  value = "${aws_spot_instance_request.client.0.public_ip}"
 }
