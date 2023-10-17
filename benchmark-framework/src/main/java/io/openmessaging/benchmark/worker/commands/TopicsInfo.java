@@ -13,13 +13,26 @@
  */
 package io.openmessaging.benchmark.worker.commands;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 public class TopicsInfo {
+    public Set<String> topicNames;
     public int numberOfTopics;
     public int numberOfPartitionsPerTopic;
 
     public TopicsInfo() {}
 
     public TopicsInfo(int numberOfTopics, int numberOfPartitionsPerTopic) {
+        this.topicNames = Collections.emptySet();
+        this.numberOfTopics = numberOfTopics;
+        this.numberOfPartitionsPerTopic = numberOfPartitionsPerTopic;
+    }
+
+    public TopicsInfo(String[] topicNames, int numberOfTopics, int numberOfPartitionsPerTopic) {
+        this.topicNames = new HashSet<>(Arrays.asList(topicNames));
         this.numberOfTopics = numberOfTopics;
         this.numberOfPartitionsPerTopic = numberOfPartitionsPerTopic;
     }

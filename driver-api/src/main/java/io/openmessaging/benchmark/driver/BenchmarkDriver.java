@@ -63,6 +63,7 @@ public interface BenchmarkDriver extends AutoCloseable {
         @SuppressWarnings("unchecked")
         CompletableFuture<Void>[] futures =
                 topicInfos.stream()
+                        .filter(topicInfo -> topicInfo.partitions > 0)
                         .map(topicInfo -> createTopic(topicInfo.getTopic(), topicInfo.getPartitions()))
                         .toArray(CompletableFuture[]::new);
         return CompletableFuture.allOf(futures);

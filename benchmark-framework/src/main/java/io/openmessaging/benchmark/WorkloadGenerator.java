@@ -69,8 +69,12 @@ public class WorkloadGenerator implements AutoCloseable {
 
     public TestResult run() throws Exception {
         Timer timer = new Timer();
-        List<String> topics =
-                worker.createTopics(new TopicsInfo(workload.topics, workload.partitionsPerTopic));
+        final TopicsInfo topicsInfo = new TopicsInfo(
+            workload.topicNames == null ? new String[]{} : workload.topicNames.split("[,;]"),
+            workload.topics,
+            workload.partitionsPerTopic
+        );
+        List<String> topics = worker.createTopics(topicsInfo);
         log.info("Created {} topics in {} ms", topics.size(), timer.elapsedMillis());
 
         createConsumers(topics);
@@ -78,10 +82,10 @@ public class WorkloadGenerator implements AutoCloseable {
 
         ensureTopicsAreReady();
 
-        if (workload.producerRate > 0) {
+        if (workload.producerRate > -1) {
             targetPublishRate = workload.producerRate;
         } else {
-            // Producer rate is 0 and we need to discover the sustainable rate
+            // Producer rate is -1 and we need to discover the sustainable rate
             targetPublishRate = 10000;
 
             executor.execute(

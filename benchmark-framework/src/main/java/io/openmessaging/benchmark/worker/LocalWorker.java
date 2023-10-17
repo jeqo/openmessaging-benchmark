@@ -105,11 +105,19 @@ public class LocalWorker implements Worker, ConsumerCallback {
     public List<String> createTopics(TopicsInfo topicsInfo) {
         Timer timer = new Timer();
 
-        List<TopicInfo> topicInfos =
+        List<TopicInfo> topicInfos;
+        if (topicsInfo.topicNames.isEmpty()) {
+            topicInfos =
                 IntStream.range(0, topicsInfo.numberOfTopics)
-                        .mapToObj(
-                                i -> new TopicInfo(generateTopicName(i), topicsInfo.numberOfPartitionsPerTopic))
-                        .collect(toList());
+                    .mapToObj(
+                        i -> new TopicInfo(generateTopicName(i), topicsInfo.numberOfPartitionsPerTopic))
+                    .collect(toList());
+        } else {
+            topicInfos =
+                topicsInfo.topicNames.stream()
+                    .map(i -> new TopicInfo(i, -1))
+                    .collect(toList());
+        }
 
         benchmarkDriver.createTopics(topicInfos).join();
 

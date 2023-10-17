@@ -18,6 +18,7 @@ import io.openmessaging.benchmark.utils.distributor.KeyDistributorType;
 
 public class Workload {
     public String name;
+    public String topicNames;
 
     /** Number of topics to create in the test. */
     public int topics;
